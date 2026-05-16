@@ -251,12 +251,13 @@ window._gltfLoaderReady = false;
   }
   .hero h1 em {
     font-style: normal;
-    color: rgba(240,237,232,0.22);
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(240,237,232,0.3);
   }
-  @media (min-width: 769px) {
+  @media (max-width: 768px) {
     .hero h1 em {
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(240,237,232,0.3);
+      color: rgba(240,237,232,0.22);
+      -webkit-text-stroke: 0;
     }
   }
 
@@ -1176,24 +1177,7 @@ window._gltfLoaderReady = false;
     }
 
     #hero-3d-wrap {
-      width: 100%;
-      height: 100%;
-      top: 0;
-      right: 0;
-      opacity: 1;
-    }
-    #hero-3d-wrap::before {
-      border-left: none;
-      border-bottom: none;
-      background: linear-gradient(
-        to bottom,
-        rgba(10,10,10,0.15) 0%,
-        transparent 30%,
-        transparent 50%,
-        rgba(10,10,10,0.75) 80%,
-        rgba(10,10,10,0.95) 100%
-      );
-      z-index: 3;
+      display: none !important;
     }
     .hero-3d-corner { display: none; }
 
@@ -1728,6 +1712,18 @@ function switchProjectTab(tab) {
 })();
 
 (function () {
+
+  const isMobile = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
+
+  if (isMobile) {
+    const loaderScreenM = document.getElementById('loader-screen');
+    const wrap3dM = document.getElementById('hero-3d-wrap');
+    if (wrap3dM) wrap3dM.style.display = 'none';
+    if (loaderScreenM) {
+      loaderScreenM.classList.add('hidden');
+    }
+    return;
+  }
 
   const loaderScreen = document.getElementById('loader-screen');
   const loaderBar    = document.getElementById('loader-bar');
